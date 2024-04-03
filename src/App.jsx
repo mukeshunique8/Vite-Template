@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import React from "react";
+import { createRoot } from "react-dom";
+import Navbar from "./components/Navbar";
+import Card from "./components/Card";
+import data from "./dummy.json"; // Import your JSON data
+import MemeCard from "./components/MemeCard"
+import ProfileCard from "./components/ProfileCard";
+import Todo from "./components/Todo";
 function App() {
-  const [count, setCount] = useState(0)
-
+  
+  // console.log(data);
+  const mappedCards = data.map((item, index) => (
+    <Card 
+      key={index}
+      imgurl={item.imageUrl}
+      rating={item.rating}
+      totalRatings={item.totalRatings}
+      location={item.location}
+      title={item.title}
+      price={item.price}
+      soldOut={item.soldOut}
+    />
+  ))
+  console.log(mappedCards);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="w-full h-screen">
+     
+      <Navbar />
+
+      <div className="flex flex-col justify-center sm:flex-row flex-wrap">
+      {mappedCards}
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      <MemeCard></MemeCard>
+
+
+      {/* <Todo></Todo> */}
+      {/* <ProfileCard/> */}
+    </div>
+  );
 }
 
-export default App
+// Use createRoot to render the App component asynchronously
+const root = createRoot(document.getElementById("root"));
+root.render(<App />);
